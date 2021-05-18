@@ -1,0 +1,161 @@
+﻿@page "/ruleseligibilityedit"
+@page "/ruleseligibilityedit/{RulesEligibilityId}"
+@using CartConfig.Client;
+@using CartConfig.Shared;
+
+@if (!Saved)
+{
+    <section class="ruleseligibility-edit">
+
+        <h1 class="page-title">Rules Engine</h1>
+        <EditForm Model="@RulesEligibility" OnValidSubmit="@HandleValidSubmit"
+                  OnInvalidSubmit="@HandleInvalidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary></ValidationSummary>
+
+            <div class="form-group row">
+                <label for="farmbill" class="col-sm-3">Farm Bill: </label>
+                <InputSelect id="farmbill" class="form-control col-sm-8" @bind-Value="@FarmBillId">
+                    @foreach (var farmBill in FarmBills)
+                        {
+                        <option value="@farmBill.FarmBillId">@farmBill.Name</option>
+                        }
+                </InputSelect>
+            </div>
+
+            <div class="form-group row">
+                <label for="program" class="col-sm-3">Program: </label>
+                <InputSelect id="program" class="form-control col-sm-8" @bind-Value="@ProgramId">
+                    @foreach (var program in Programs)
+                        {
+                        <option value="@program.ProgramId">@program.Name</option>
+                        }
+                </InputSelect>
+            </div>
+
+            <div class="form-group row">
+                <label for="programcomponent" class="col-sm-3">Program Component: </label>
+                <InputSelect id="programcomponent" class="form-control col-sm-8" @bind-Value="@ProgramComponentId">
+                    @foreach (var programComponent in ProgramComponents)
+                        {
+                        <option value="@programComponent.ProgramComponentId">@programComponent.Name</option>
+                        }
+                </InputSelect>
+            </div>
+
+            <div class="form-group row">
+                <label for="contract" class="col-sm-3">Contract: </label>
+                <InputSelect id="contract" class="form-control col-sm-8" @bind-Value="@ContractId">
+                    @foreach (var contract in Contracts)
+                        {
+                        <option value="@contract.ContractId">@contract.Name</option>
+                        }
+                </InputSelect>
+            </div>
+
+            <div class="form-group row">
+                <label for="jurisdiction" class="col-sm-3">Jurisdiction: </label>
+                <InputSelect id="jurisdiction" class="form-control col-sm-8" @bind-Value="@JurisdictionId">
+                    @foreach (var jurisdiction in Jurisdictions)
+                        {
+                        <option value="@jurisdiction.JurisdictionId">@jurisdiction.Name</option>
+                        }
+                </InputSelect>
+            </div>
+
+            <div class="form-group row">
+                <label for="status" class="col-sm-3">Contract: </label>
+                <InputSelect id="status" class="form-control col-sm-8" @bind-Value="@StatusId">
+                    @foreach (var status in Statuses)
+                        {
+                        <option value="@status.StatusID">@status.StatusName</option>
+                        }
+                </InputSelect>
+            </div>
+
+            <div class="form-group row">
+                <label for="startdate" class="col-sm-3">Start Date: </label>
+                <InputDate id="startdate" class="form-control col-sm-8" @bind-Value="@RulesEligibility.StartDate" placeholder="Enter startdate"></InputDate>
+            </div>
+
+            <div class="form-group row">
+                <label for="enddate" class="col-sm-3">End Date: </label>
+                <InputDate id="enddate" class="form-control col-sm-8" @bind-Value="@RulesEligibility.EndDate" placeholder="Enter enddate"></InputDate>
+            </div>
+
+            <div class="form-group row">
+                <label for="enrollmentTypeId" class=" offset-sm-3">
+                    <InputCheckbox id="enrollmentTypeId" @bind-Value="@RulesEligibility.IsEnrollmentType"></InputCheckbox>
+                    &nbsp;Enrollment Type
+                </label>
+            </div>
+
+            <div class="form-group row">
+                <label for="duration" class=" offset-sm-3">
+                    <InputCheckbox id="duration" @bind-Value="@RulesEligibility.IsDuration"></InputCheckbox>
+                    &nbsp;Duration
+                </label>
+            </div>
+
+            <div class="form-group row">
+                <label for="easementType" class=" offset-sm-3">
+                    <InputCheckbox id="easementType" @bind-Value="@RulesEligibility.IsEasementType"></InputCheckbox>
+                    &nbsp;Easement Type
+                </label>
+            </div>
+
+            <div class="form-group row">
+                <label for="paymentRateSource" class=" offset-sm-3">
+                    <InputCheckbox id="paymentRateSource" @bind-Value="@RulesEligibility.IsPaymentRateSource"></InputCheckbox>
+                    &nbsp;Payment Rate Source
+                </label>
+            </div>
+
+            <div class="form-group row">
+                <label for="practiceSchedule" class=" offset-sm-3">
+                    <InputCheckbox id="practiceSchedule" @bind-Value="@RulesEligibility.IsPracticeSchedule"></InputCheckbox>
+                    &nbsp;Practice Schedule
+                </label>
+            </div>
+
+            <div class="form-group row">
+                <label for="cartAssessmentRequired" class=" offset-sm-3">
+                    <InputCheckbox id="cartAssessmentRequired" @bind-Value="@RulesEligibility.IsCARTAssessmentRequired"></InputCheckbox>
+                    &nbsp;CART Assessment Required
+                </label>
+            </div>
+
+            <div class="form-group row">
+                <label for="cartRankingRequired" class=" offset-sm-3">
+                    <InputCheckbox id="cartRankingRequired" @bind-Value="@RulesEligibility.IsCARTRankingRequired"></InputCheckbox>
+                    &nbsp;CART Ranking Required
+                </label>
+            </div>
+
+            <div class="form-group row">
+                <label for="applicationrequired" class=" offset-sm-3">
+                    <InputCheckbox id="applicationrequired" @bind-Value="@RulesEligibility.IsApplicationRequired"></InputCheckbox>
+                    &nbsp;Application Required
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary edit-btn">Save Config</button>
+
+            @if (RulesEligibility.RulesEligibilityID > 0)
+            {
+                <a class="btn btn-danger" @onclick="@DeleteRulesEligibility">
+                    Delete
+                </a>
+            }
+
+            <a class="btn btn-outline-primary" @onclick="@NavigateToOverview">Back to overview</a>
+
+
+        </EditForm>
+
+    </section>
+}
+else
+{
+    <div class="alert @StatusClass">@Message</div>
+}

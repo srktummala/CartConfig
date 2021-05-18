@@ -1,0 +1,109 @@
+﻿@page "/clienteligibilityedit"
+@page "/clienteligibilityedit/{RulesEligibilityId}"
+
+
+@using CartConfig.Shared;
+
+<section class="program-level">
+    <div class="col-12 row">
+        <div class="col-10 row">
+            <div class="col-xs-12 col-sm-8">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">RulesEligibility ID:</label>
+                    <div class="col-sm-8">
+                        <label type="text" class="form-control-plaintext">@RulesEligibility.RulesEligibilityID</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Farm Bill:</label>
+                    <div class="col-sm-8">
+                        <label type="text" readonly class="form-control-plaintext">@FarmBill.Name</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Program:</label>
+                    <div class="col-sm-8">
+                        <label type="text" readonly class="form-control-plaintext">@Program.Name</label>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Program Component:</label>
+                    <div class="col-sm-8">
+                        <label type="text" readonly class="form-control-plaintext">@ProgramComponent.Name</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+@if (!Saved)
+{
+    <section class="clienteligibility-edit">
+
+        <h1 class="page-title">Client Eligibility</h1>
+        <EditForm Model="@AssistanceRequest" OnValidSubmit="@HandleValidSubmit"
+                  OnInvalidSubmit="@HandleInvalidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary></ValidationSummary>
+
+            <div class="form-group row">
+                <label for="rdIsLandInState" class="col-sm-3">Is the land in</label>
+                @foreach (var option in rdIsLandInState)
+                {
+                    <div>
+                        <input type="radio" name="rdIsLandInState" id="@option" value="@option" @onchange="RadioSelectionIsLandInState" checked=@(RadioValueIsLandInState.Equals(option,StringComparison.OrdinalIgnoreCase)) />
+                        <label for="@option">@option <br /></label>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group row">
+                <label for="rdIsTheProducerInterested" class="col-sm-3">Is The Producer Interested</label>
+                @foreach (var option in rdIsTheProducerInterested)
+                {
+                    <div>
+                        <input type="radio" name="rdIsTheProducerInterested" id="@option" value="@option" @onchange="RadioSelectionIsTheProducerInterested" checked=@(RadioValueIsTheProducerInterested.Equals(option,StringComparison.OrdinalIgnoreCase)) />
+                        <label for="@option">@option <br /></label>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group row">
+                <label for="rdTypeOfClient" class="col-sm-3">Type Of Client</label>
+                @foreach (var option in rdTypeOfClient)
+                {
+                    <div>
+                        <input type="radio" name="rdTypeOfClient" id="@option" value="@option" @onchange="RadioSelectionTypeOfClient" checked=@(RadioValueTypeOfClient.Equals(option,StringComparison.OrdinalIgnoreCase)) />
+                        <label for="@option">@option <br /></label>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group row">
+                <label for="rdYearsFarming" class="col-sm-3">Years Farming</label>
+                @foreach (var option in rdYearsFarming)
+                {
+                    <div>
+                        <input type="radio" name="rdYearsFarming" id="@option" value="@option" @onchange="RadioSelectionYearsFarming" checked=@(RadioValueYearsFarming.Equals(option,StringComparison.OrdinalIgnoreCase)) />
+                        <label for="@option">@option <br /></label>
+                    </div>
+                }
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primary edit-btn">Save Survey</button>
+
+            <a class="btn btn-outline-primary" @onclick="@NavigateToOverview">Back to overview</a>
+
+        </EditForm>
+    </section>
+}
+else
+{
+    <div class="alert @StatusClass">@Message</div>
+}

@@ -1,0 +1,47 @@
+﻿@page "/ruleseligibilityoverview"
+@using CartConfig.Shared;
+<h1 class="page-title">Rules Eligibility</h1>
+
+@if (RulesEligibilities == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>RulesEligibility ID</th>
+                <th>Farm Bill</th>
+                <th>Program</th>
+                <th>Program Component</th>
+                <th>Contract</th>
+                <th>Jurisdiction</th>                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var rulesEligibility in RulesEligibilities)
+            {
+            <tr>
+                <td>@rulesEligibility.RulesEligibilityID</td>
+                <td>@rulesEligibility.FarmBillId</td>                
+                <td>@rulesEligibility.ProgramId</td>                
+                <td>@rulesEligibility.ProgramComponentId</td>                
+                <td>@rulesEligibility.ContractId</td>
+                <td>@rulesEligibility.JurisdictionId</td>                
+                <td>
+                    <a href="@($"ruleseligibilitydetail/{rulesEligibility.RulesEligibilityID}")" class="btn btn-primary table-btn">
+                        Details
+                    </a>
+                    <a href="@($"ruleseligibilityedit/{rulesEligibility.RulesEligibilityID}")" class="btn btn-primary table-btn">
+                        Edit
+                    </a>
+                    <a href="@($"clienteligibilityedit/{rulesEligibility.RulesEligibilityID}")" class="btn btn-primary table-btn">
+                        Client Eligibility
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
